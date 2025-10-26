@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>History Hub — Green & White</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --green: #0f9d58; /* main green */
+      --green-dark: #0a6d3a;
+      --bg: #ffffff;
+      --muted: #6b6b6b;
+      --card-shadow: 0 6px 18px rgba(11,77,40,0.08);
+      --radius: 14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    *{box-sizing: border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:#0b2a16}
+
+    header{background:linear-gradient(90deg, #eaf7ee, #ffffff);border-bottom:1px solid #edf6ef;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:var(--green);display:grid;place-items:center;color:white;font-weight:700;box-shadow:var(--card-shadow)}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    nav a{color:var(--green-dark);text-decoration:none;font-weight:600;margin-left:12px}
+
+    .container{max-width:1060px;margin:28px auto;padding:0 18px}
+
+    /* grid of articles */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+    .card{background:white;border-radius:12px;padding:16px;border:1px solid #f0f6f2;box-shadow:var(--card-shadow);transition:transform .18s ease, box-shadow .18s ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(8,68,30,0.08)}
+    .card h3{margin:0 0 8px 0;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+    .read-btn{display:inline-block;margin-top:12px;padding:8px 12px;border-radius:10px;background:var(--green);color:white;text-decoration:none;font-weight:600}
+
+    /* hero */
+    .hero{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+    .hero .meta{flex:1}
+    .hero .hero-img{width:120px;height:80px;border-radius:10px;background:linear-gradient(135deg,var(--green),var(--green-dark));display:grid;place-items:center;color:white;font-weight:700}
+
+    /* article view using :target */
+    main{min-height:60vh}
+    section.article{display:none;padding:22px;border-radius:12px;background:white;border:1px solid #eef7ee;box-shadow:var(--card-shadow);margin-bottom:22px}
+    :target.article{display:block}
+
+    /* show home when no target */
+    :root:target ~ .container .home{display:none}
+    /* trick: when any target is active, hide the grid and show the article. But browsers can't detect generic target; we'll use IDs for articles and a general style below */
+
+    /* We'll show article if its id matches location hash */
+    /* fallback: show home by default */
+
+    /* clickable breadcrumbs */
+    .back{display:inline-block;margin-bottom:12px;color:var(--green-dark);text-decoration:none;font-weight:600}
+
+    footer{margin:40px 0 80px;color:var(--muted);text-align:center}
+
+    @media (max-width:640px){
+      .hero{flex-direction:column;align-items:flex-start}
+      .logo{width:44px;height:44px}
+    }
+
+    /* Using :target specifics for each article ID */
+    #mughal:target, #indus:target, #mohenjo:target{display:block}
+    /* hide home when any article targeted */
+    #mughal:target ~ .home, #indus:target ~ .home, #mohenjo:target ~ .home{display:none}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">H</div>
+      <div>
+        <h1>History Hub</h1>
+        <p class="lead">Green & white theme • Short articles about our past</p>
+      </div>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#mughal">Mughal</a>
+      <a href="#indus">Indus Valley</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="hero">
+        <div class="meta">
+          <h2 style="margin:0 0 6px 0">Discover history — simple & clean</h2>
+          <p class="lead">Click any article card to read. Ye site sirf HTML/CSS se bani hai. (No JavaScript)</p>
+        </div>
+        <div class="hero-img">📜</div>
+      </div>
+
+      <!-- HOME / ARTICLE LIST -->
+      <div class="home">
+        <div class="grid">
+
+          <article class="card">
+            <h3>Mughal Empire</h3>
+            <p>From Babur to Aurangzeb — art, architecture, and legacy of the Mughal era.</p>
+            <a class="read-btn" href="#mughal">Read</a>
+          </article>
+
+          <article class="card">
+            <h3>Indus Valley Civilization</h3>
+            <p>One of the worldâ€™s earliest urban cultures — Mohenjo-daro, Harappa, trade and crafts.</p>
+            <a class="read-btn" href="#indus">Read</a>
+          </article>
+
+          <article class="card">
+            <h3>Mohenjo-daro</h3>
+            <p>City planning, drainage systems, and the mystery of the script.</p>
+            <a class="read-btn" href="#mohenjo">Read</a>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- ARTICLE: Mughal -->
+      <section id="mughal" class="article">
+        <a class="back" href="#">← Back to Home</a>
+        <h2>Mughal Empire</h2>
+        <p style="color:var(--muted);margin-top:6px">Short overview</p>
+        <p style="line-height:1.7;margin-top:12px">Mughal Empire (1526–1857) was founded by Babur after the victory at Panipat. It brought Persianate culture, big courtly patronage for arts, and monumental architecture like the Taj Mahal. Key rulers: Babur, Humayun, Akbar (consolidation & religious policy), Jahangir, Shah Jahan (architecture peak), Aurangzeb (expansion and later decline).</p>
+
+        <h3>Culture & Achievements</h3>
+        <ul>
+          <li>Architecture: Taj Mahal, Red Fort, Fatehpur Sikri.</li>
+          <li>Painting: Mughal miniature style blended Persian and Indian themes.</li>
+          <li>Administration: Centralized revenue systems and court ranks (mansabdari).</li>
+        </ul>
+
+        <h3>Legacy</h3>
+        <p>Language, cuisine, art and many buildings still shape South Asian identity. The empire's decline opened the way for British colonial rule.</p>
+      </section>
+
+      <!-- ARTICLE: Indus Valley -->
+      <section id="indus" class="article">
+        <a class="back" href="#">← Back to Home</a>
+        <h2>Indus Valley Civilization</h2>
+        <p style="color:var(--muted);margin-top:6px">Short overview</p>
+        <p style="line-height:1.7;margin-top:12px">(c. 3300–1300 BCE) Indus Valley Civilization was known for its planned cities like Harappa and Mohenjo-daro. Streets were grid-patterned, houses had baked-brick walls and private wells. They had standardized weights and evidence of long-distance trade with Mesopotamia.</p>
+
+        <h3>Notable features</h3>
+        <ul>
+          <li>Urban planning & drainage systems.</li>
+          <li>Seals with undeciphered script — so many mysteries remain.</li>
+          <li>Skilled craft production: beads, metallurgy, pottery.</li>
+        </ul>
+
+        <h3>Why it matters</h3>
+        <p>It shows early complex urban life on the subcontinent and connects ancient trade networks across Asia.</p>
+      </section>
+
+      <!-- ARTICLE: Mohenjo-daro -->
+      <section id="mohenjo" class="article">
+        <a class="back" href="#">← Back to Home</a>
+        <h2>Mohenjo-daro</h2>
+        <p style="color:var(--muted);margin-top:6px">City highlight</p>
+        <p style="line-height:1.7;margin-top:12px">Mohenjo-daro (now in Sindh, Pakistan) was one of the largest settlements of the Indus Valley. Its Great Bath suggests ritual activities. The city's careful planning shows advanced civic organization more than 4,000 years ago.</p>
+
+        <h3>Interesting facts</h3>
+        <ul>
+          <li>Great Bath — possible public / ritual bathing structure.</li>
+          <li>Wide streets and cisterns for water management.</li>
+          <li>Script remains undeciphered — identity of people still debated.</li>
+        </ul>
+      </section>
+
+      <footer>
+        Created by: <strong>Shahmeer</strong> • Theme: Green & White
+      </footer>
+
+    </div>
+  </main>
+</body>
+</html>
