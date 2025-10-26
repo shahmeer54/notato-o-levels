@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notato — School Notes</title>
+  <style>
+    :root{
+      --green: #1fa67a;
+      --green-dark: #177a5f;
+      --white: #ffffff;
+      --bg: #f7fff9;
+      --text: #053024;
+      --card-shadow: 0 6px 18px rgba(3,30,18,0.08);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#ecfff4 60%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .container{
+      max-width:1000px;
+      margin:36px auto;
+      padding:20px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      display:grid;place-items:center;color:var(--white);font-weight:700;font-size:20px;box-shadow:var(--card-shadow)
+    }
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 0 0;color:rgba(5,48,36,0.8);font-size:13px}
+
+    .card{
+      background:var(--white);
+      padding:18px;border-radius:14px;box-shadow:var(--card-shadow);margin-top:18px;
+    }
+
+    .subjects-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:10px;
+    }
+
+    .subject-btn{
+      appearance:none;border:2px solid rgba(27,100,82,0.12);background:linear-gradient(180deg,var(--white),#f6fff8);
+      padding:10px 12px;border-radius:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s ease;
+    }
+    .subject-btn:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(3,30,18,0.06)}
+    .subject-btn.active{background:linear-gradient(180deg,var(--green),var(--green-dark));color:var(--white);border-color:transparent}
+
+    .controls{display:flex;gap:8px;margin-top:14px}
+    .btn-primary{background:var(--green);color:var(--white);padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+    .btn-ghost{background:transparent;border:2px solid var(--green);color:var(--green);padding:10px 14px;border-radius:10px;cursor:pointer}
+
+    footer{margin-top:18px;font-size:13px;color:rgba(5,48,36,0.7);display:flex;justify-content:space-between;align-items:center}
+
+    /* small helpers */
+    .form-row{display:flex;gap:12px;align-items:center}
+    .name-chip{font-size:13px;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--white),#f7fff9);border:1px solid rgba(18,95,77,0.06)}
+
+    @media (max-width:520px){
+      header{flex-direction:column;align-items:flex-start}
+      .brand{gap:8px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">N</div>
+        <div>
+          <h1>Notato — School Notes</h1>
+          <p class="lead">Quick access to your subject notes — green &amp; white theme</p>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="name-chip">Created by: Shahmeer</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <form id="subjectsForm" onsubmit="return false;">
+          <label style="font-weight:700">Choose subjects</label>
+          <div class="subjects-grid" id="subjectsGrid">
+            <!-- subject buttons -->
+            <button type="button" class="subject-btn" data-name="Mathematics">Mathematics</button>
+            <button type="button" class="subject-btn" data-name="Physics">Physics</button>
+            <button type="button" class="subject-btn" data-name="Chemistry">Chemistry</button>
+            <button type="button" class="subject-btn" data-name="Biology">Biology</button>
+            <button type="button" class="subject-btn" data-name="English">English</button>
+            <button type="button" class="subject-btn" data-name="Urdu">Urdu</button>
+            <button type="button" class="subject-btn" data-name="Islamiat">Islamiat</button>
+            <button type="button" class="subject-btn" data-name="History">History</button>
+            <button type="button" class="subject-btn" data-name="Geography">Geography</button>
+            <button type="button" class="subject-btn" data-name="Computer Science">Computer Science</button>
+          </div>
+
+          <div class="controls">
+            <button class="btn-primary" id="saveBtn">Save selection</button>
+            <button class="btn-ghost" id="clearBtn" type="button">Clear</button>
+          </div>
+
+          <input type="hidden" name="selectedSubjects" id="selectedSubjects" />
+        </form>
+
+        <div id="result" style="margin-top:12px;font-size:14px;color:rgba(5,48,36,0.8)"></div>
+      </section>
+
+      <section class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px 0">Notes quick links</h3>
+        <p style="margin:0;color:rgba(5,48,36,0.7)">Click "Save selection" to generate quick links for chosen subjects (example placeholders).</p>
+        <div id="linksArea" style="margin-top:10px;display:grid;gap:8px"></div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Notato</div>
+      <div style="opacity:0.9">Made with ❤️ • Green &amp; White</div>
+    </footer>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.subject-btn');
+    const selectedInput = document.getElementById('selectedSubjects');
+    const result = document.getElementById('result');
+    const linksArea = document.getElementById('linksArea');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        btn.classList.toggle('active');
+      });
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', ()=>{
+      const chosen = Array.from(buttons).filter(b=>b.classList.contains('active')).map(b=>b.dataset.name);
+      selectedInput.value = chosen.join(',');
+      result.textContent = chosen.length ? `Selected: ${chosen.join(', ')}` : 'No subjects chosen yet.';
+
+      // generate sample quick links
+      linksArea.innerHTML = '';
+      if(chosen.length){
+        chosen.forEach(s=>{
+          const a = document.createElement('a');
+          a.href = `#${s.toLowerCase().replace(/\s+/g,'-')}`;
+          a.textContent = s + ' notes';
+          a.style.padding = '8px 10px';
+          a.style.display = 'inline-block';
+          a.style.borderRadius = '8px';
+          a.style.border = '1px solid rgba(18,95,77,0.08)';
+          linksArea.appendChild(a);
+        });
+      }
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      selectedInput.value = '';
+      result.textContent = '';
+      linksArea.innerHTML = '';
+    });
+  </script>
+</body>
+</html>
