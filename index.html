@@ -1,182 +1,171 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Notato — School Note</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Notato — Notes Reader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --green: #1fa67a;
-      --green-dark: #177a5f;
-      --white: #ffffff;
-      --bg: #f7fff9;
-      --text: #053024;
-      --card-shadow: 0 6px 18px rgba(3,30,18,0.08);
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --green:#0f9d58; --green-dark:#0a6d3a; --bg:#ffffff; --muted:#6b6b6b; --card-shadow:0 10px 30px rgba(11,77,40,0.08); --radius:14px;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:linear-gradient(180deg,var(--bg),#ecfff4 60%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-    }
+    body{margin:0;background:linear-gradient(180deg,#f6fbf7 0%,#ffffff 100%);color:#062815}
 
-    .container{
-      max-width:1000px;
-      margin:36px auto;
-      padding:20px;
-    }
+    header{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid #eef7ee}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:12px;background:var(--green);display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:var(--card-shadow)}
+    h1.site-title{margin:0;font-size:20px}
+    .by{color:var(--muted);font-size:13px}
 
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-    }
+    nav a{margin-left:12px;text-decoration:none;color:var(--green-dark);font-weight:600}
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .logo{
-      width:56px;height:56px;border-radius:12px;
-      background:linear-gradient(135deg,var(--green),var(--green-dark));
-      display:grid;place-items:center;color:var(--white);font-weight:700;font-size:20px;box-shadow:var(--card-shadow)
-    }
-    h1{margin:0;font-size:20px}
-    p.lead{margin:4px 0 0 0;color:rgba(5,48,36,0.8);font-size:13px}
+    .container{max-width:1100px;margin:30px auto;padding:0 20px}
 
-    .card{
-      background:var(--white);
-      padding:18px;border-radius:14px;box-shadow:var(--card-shadow);margin-top:18px;
-    }
+    .hero{display:flex;gap:20px;align-items:center}
+    .hero-left{flex:1}
+    h2{margin:0;font-size:28px}
+    p.lead{margin:8px 0;color:var(--muted)}
 
-    .subjects-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:10px;
-    }
+    /* big name */
+    .owner{margin-top:10px;font-weight:800;color:var(--green-dark);font-size:40px;letter-spacing:1px}
 
-    .subject-btn{
-      appearance:none;border:2px solid rgba(27,100,82,0.12);background:linear-gradient(180deg,var(--white),#f6fff8);
-      padding:10px 12px;border-radius:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s ease;
-    }
-    .subject-btn:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(3,30,18,0.06)}
-    .subject-btn.active{background:linear-gradient(180deg,var(--green),var(--green-dark));color:var(--white);border-color:transparent}
+    /* action buttons */
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btn{background:var(--green);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:10px;box-shadow:0 8px 20px rgba(15,157,88,0.14)}
+    .btn.ghost{background:transparent;color:var(--green-dark);border:2px solid rgba(15,157,88,0.12)}
 
-    .controls{display:flex;gap:8px;margin-top:14px}
-    .btn-primary{background:var(--green);color:var(--white);padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
-    .btn-ghost{background:transparent;border:2px solid var(--green);color:var(--green);padding:10px 14px;border-radius:10px;cursor:pointer}
+    /* notes grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:24px}
+    .card{background:white;border-radius:12px;padding:16px;border:1px solid #f0f6f2;box-shadow:var(--card-shadow);transition:transform .16s ease}
+    .card:hover{transform:translateY(-6px)}
+    .card h3{margin:0 0 8px 0;font-size:16px}
+    .meta{color:var(--muted);font-size:13px}
+    .read{display:inline-block;margin-top:12px;padding:8px 12px;border-radius:10px;background:var(--green);color:white;text-decoration:none;font-weight:700}
 
-    footer{margin-top:18px;font-size:13px;color:rgba(5,48,36,0.7);display:flex;justify-content:space-between;align-items:center}
+    /* read modal using :target */
+    .reader{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:28px}
+    .reader:target{display:flex}
+    .panel{width:100%;max-width:900px;background:white;border-radius:12px;padding:22px;box-shadow:0 30px 80px rgba(6,40,20,0.2);max-height:90vh;overflow:auto}
+    .close{display:inline-block;margin-bottom:12px;color:var(--green-dark);text-decoration:none;font-weight:700}
 
-    /* small helpers */
-    .form-row{display:flex;gap:12px;align-items:center}
-    .name-chip{font-size:13px;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--white),#f7fff9);border:1px solid rgba(18,95,77,0.06)}
+    footer{margin:40px 0;color:var(--muted);text-align:center}
 
-    @media (max-width:520px){
-      header{flex-direction:column;align-items:flex-start}
-      .brand{gap:8px}
+    /* responsive */
+    @media(max-width:800px){
+      .hero{flex-direction:column;align-items:flex-start}
+      .owner{font-size:32px}
+      .logo{width:56px;height:56px}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="logo">N</div>
-        <div>
-          <h1>Notato — School Notes</h1>
-          <p class="lead">Quick access to your subject notes — green &amp; white theme</p>
+  <header>
+    <div class="brand">
+      <div class="logo">N</div>
+      <div>
+        <h1 class="site-title">Notato — Notes Reader</h1>
+        <div class="by">Created by <strong>Shahmeer</strong></div>
+      </div>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#history">History</a>
+      <a href="#science">Science</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h2>Professional notes — clean, fast, focused</h2>
+        <p class="lead">Read short, high-quality notes made for revision. No JS — pure HTML & CSS so it's lightweight and easy to host on GitHub Pages.</p>
+        <div class="owner">Shahmeer</div>
+
+        <div class="actions">
+          <a class="btn" href="#create">Create Note</a>
+          <a class="btn ghost" href="#browse">Browse All</a>
+          <a class="btn" href="https://example.com/sample.pdf" target="_blank">Sample PDF</a>
         </div>
       </div>
-      <div class="form-row">
-        <div class="name-chip">Created by: Shahmeer</div>
+      <div style="width:220px;height:140px;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--green-dark));display:grid;place-items:center;color:white;font-weight:800;box-shadow:var(--card-shadow)">Notes</div>
+    </section>
+
+    <section id="browse" style="margin-top:28px">
+      <h3 style="margin:0 0 6px 0">Popular Notes</h3>
+      <p class="lead">Click Read to open notes in the reader.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>History — Mughal Empire</h3>
+          <div class="meta">Short summary • 2 pages</div>
+          <a class="read" href="#note-mughal">Read</a>
+        </article>
+
+        <article class="card">
+          <h3>Science — Photosynthesis</h3>
+          <div class="meta">Short summary • 1 page</div>
+          <a class="read" href="#note-photosynthesis">Read</a>
+        </article>
+
+        <article class="card">
+          <h3>Mathematics — Algebra Notes</h3>
+          <div class="meta">Key formulas & examples</div>
+          <a class="read" href="#note-algebra">Read</a>
+        </article>
+
       </div>
-    </header>
-
-    <main>
-      <section class="card">
-        <form id="subjectsForm" onsubmit="return false;">
-          <label style="font-weight:700">Choose subjects</label>
-          <div class="subjects-grid" id="subjectsGrid">
-            <!-- subject buttons -->
-            <button type="button" class="subject-btn" data-name="Mathematics">Mathematics</button>
-            <button type="button" class="subject-btn" data-name="Physics">Physics</button>
-            <button type="button" class="subject-btn" data-name="Chemistry">Chemistry</button>
-            <button type="button" class="subject-btn" data-name="Biology">Biology</button>
-            <button type="button" class="subject-btn" data-name="English">English</button>
-            <button type="button" class="subject-btn" data-name="Urdu">Urdu</button>
-            <button type="button" class="subject-btn" data-name="Islamiat">Islamiat</button>
-            <button type="button" class="subject-btn" data-name="History">History</button>
-            <button type="button" class="subject-btn" data-name="Geography">Geography</button>
-            <button type="button" class="subject-btn" data-name="Computer Science">Computer Science</button>
-          </div>
-
-          <div class="controls">
-            <button class="btn-primary" id="saveBtn">Save selection</button>
-            <button class="btn-ghost" id="clearBtn" type="button">Clear</button>
-          </div>
-
-          <input type="hidden" name="selectedSubjects" id="selectedSubjects" />
-        </form>
-
-        <div id="result" style="margin-top:12px;font-size:14px;color:rgba(5,48,36,0.8)"></div>
-      </section>
-
-      <section class="card" style="margin-top:12px">
-        <h3 style="margin:0 0 8px 0">Notes quick links</h3>
-        <p style="margin:0;color:rgba(5,48,36,0.7)">Click "Save selection" to generate quick links for chosen subjects (example placeholders).</p>
-        <div id="linksArea" style="margin-top:10px;display:grid;gap:8px"></div>
-      </section>
-    </main>
+    </section>
 
     <footer>
-      <div>Notato</div>
-      <div style="opacity:0.9">Made with ❤️ • Green &amp; White</div>
+      © <strong>Shahmeer</strong> — Notato • Green & White Theme
     </footer>
+  </main>
+
+  <!-- Reader panels (pure HTML/CSS using :target) -->
+  <div id="note-mughal" class="reader">
+    <div class="panel">
+      <a class="close" href="#">← Close</a>
+      <h2>Mughal Empire — Quick Notes</h2>
+      <p style="color:var(--muted)">Summary • Politics, Culture, Architecture</p>
+      <h3>Founding</h3>
+      <p>Babur (1526) defeated Ibrahim Lodi at Panipat and established the Mughal dynasty. Important rulers include Akbar, Shah Jahan and Aurangzeb.</p>
+      <h3>Achievements</h3>
+      <ul>
+        <li>Architecture: Taj Mahal, Red Fort</li>
+        <li>Art: Mughal miniature painting</li>
+        <li>Administration: Mansabdari system</li>
+      </ul>
+    </div>
   </div>
 
-  <script>
-    const buttons = document.querySelectorAll('.subject-btn');
-    const selectedInput = document.getElementById('selectedSubjects');
-    const result = document.getElementById('result');
-    const linksArea = document.getElementById('linksArea');
+  <div id="note-photosynthesis" class="reader">
+    <div class="panel">
+      <a class="close" href="#">← Close</a>
+      <h2>Photosynthesis — Quick Notes</h2>
+      <p style="color:var(--muted)">Light-dependent reactions and Calvin cycle</p>
+      <h3>Equation</h3>
+      <p>6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂</p>
+      <h3>Steps</h3>
+      <ul>
+        <li>Light reactions: produce ATP & NADPH</li>
+        <li>Calvin cycle: fix CO₂ into sugars</li>
+      </ul>
+    </div>
+  </div>
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', ()=>{
-        btn.classList.toggle('active');
-      });
-    });
+  <div id="note-algebra" class="reader">
+    <div class="panel">
+      <a class="close" href="#">← Close</a>
+      <h2>Algebra — Key Formulae</h2>
+      <ul>
+        <li>Quadratic formula: x = (-b ± √(b²-4ac)) / (2a)</li>
+        <li>Factorization tips & worked examples</li>
+      </ul>
+    </div>
+  </div>
 
-    document.getElementById('saveBtn').addEventListener('click', ()=>{
-      const chosen = Array.from(buttons).filter(b=>b.classList.contains('active')).map(b=>b.dataset.name);
-      selectedInput.value = chosen.join(',');
-      result.textContent = chosen.length ? `Selected: ${chosen.join(', ')}` : 'No subjects chosen yet.';
-
-      // generate sample quick links
-      linksArea.innerHTML = '';
-      if(chosen.length){
-        chosen.forEach(s=>{
-          const a = document.createElement('a');
-          a.href = `#${s.toLowerCase().replace(/\s+/g,'-')}`;
-          a.textContent = s + ' notes';
-          a.style.padding = '8px 10px';
-          a.style.display = 'inline-block';
-          a.style.borderRadius = '8px';
-          a.style.border = '1px solid rgba(18,95,77,0.08)';
-          linksArea.appendChild(a);
-        });
-      }
-    });
-
-    document.getElementById('clearBtn').addEventListener('click', ()=>{
-      buttons.forEach(b=>b.classList.remove('active'));
-      selectedInput.value = '';
-      result.textContent = '';
-      linksArea.innerHTML = '';
-    });
-  </script>
 </body>
 </html>
-
